@@ -314,6 +314,25 @@ wheels = [
 ]
 
 [[package]]
+name = "google-genai"
+version = "1.41.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "google-auth" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "requests" },
+    { name = "tenacity" },
+    { name = "typing-extensions" },
+    { name = "websockets" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/72/8b/ee20bcf707769b3b0e1106c3b5c811507736af7e8a60f29a70af1750ba19/google_genai-1.41.0.tar.gz", hash = "sha256:134f861bb0ace4e34af0501ecb75ceee15f7662fd8120698cd185e8cb39f2800", size = 245812, upload-time = "2025-10-02T22:30:29.699Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/15/14/e5e8fbca8863fee718208566c4e927b8e9f45fd46ec5cf89e24759da545b/google_genai-1.41.0-py3-none-any.whl", hash = "sha256:111a3ee64c1a0927d3879faddb368234594432479a40c311e5fe4db338ca8778", size = 245931, upload-time = "2025-10-02T22:30:27.885Z" },
+]
+
+[[package]]
 name = "googleapis-common-protos"
 version = "1.70.0"
 source = { registry = "https://pypi.org/simple" }
@@ -507,6 +526,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "clerk-backend-api" },
     { name = "fastapi" },
+    { name = "google-genai" },
     { name = "langchain-core" },
     { name = "langchain-google-genai" },
     { name = "langchain-groq" },
@@ -523,6 +543,7 @@ dependencies = [
 requires-dist = [
     { name = "clerk-backend-api", specifier = ">=3.3.1" },
     { name = "fastapi", specifier = ">=0.118.0" },
+    { name = "google-genai", specifier = ">=1.41.0" },
     { name = "langchain-core", specifier = ">=0.3.76" },
     { name = "langchain-google-genai", specifier = ">=2.1.12" },
     { name = "langchain-groq", specifier = ">=0.3.8" },

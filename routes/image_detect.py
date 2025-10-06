@@ -6,7 +6,7 @@ from supabase import Client
 from core.supabase import get_supabase
 from services.image_service import ImageService
 from dependencies.auth import authenticate_and_get_user_details
-
+from ai.image_related_ai import ImageAI
 
 
 class GenericDatum(BaseModel):
@@ -32,13 +32,16 @@ class ImageResponse(BaseModel):
 
 router = APIRouter(prefix="/image", tags=["Image Detect"])
 
-
-
-@router.post("/detect", response_model=ImageResponse)
-async def create_upload_file(file: UploadFile = File(...), supabase: Client = Depends(get_supabase),user=Depends(authenticate_and_get_user_details)):
-    print(user,file)
-    service = ImageService(supabase)
-
+ # supabase: Client = Depends(get_supabase),user=Depends(authenticate_and_get_user_details)
+# response_model=ImageResponse
+@router.post("/detect")
+async def create_upload_file(file: UploadFile = File(...)):
+    # print(user,file)
+    # service = ImageService(supabase)
+    ai = ImageAI()
+    isPlantImage = ai.isPlantImage(await file.read())
+    if isPlantImage in ["False",False,'false']:
+        return HTTPException(status_code=404,detail="Please insert Image of Plant not of anything")
     # Example mocked recognition
     recognized = {
         "plant_name": "Rice",
@@ -54,10 +57,10 @@ async def create_upload_file(file: UploadFile = File(...), supabase: Client = De
     }
     try:
         data = {
-            "user_id": user["user_id"],
+            # "user_id": user["user_id"],
             "response_result": recognized,
         }
-        service.save_res_to_database(data)
+        # service.save_res_to_database(data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
