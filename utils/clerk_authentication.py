@@ -14,7 +14,7 @@ def authenticate_and_get_user_details(request):
         request_state = clerk_sdk.authenticate_request(
             request,
             AuthenticateRequestOptions(
-                authorized_parties=["http://localhost:5173", "http://localhost:5174"],
+                authorized_parties=["http://localhost:5173", "http://localhost:5174","https://golden-trifle-019de0.netlify.app"],
                 jwt_key=JWT_KEY
             )
         )
