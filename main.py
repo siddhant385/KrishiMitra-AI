@@ -1,6 +1,6 @@
 import os
-os.environ["HTTP_PROXY"] = "http://proxy.server:3128"
-os.environ["HTTPS_PROXY"] = "http://proxy.server:3128"
+# os.environ["HTTP_PROXY"] = "http://proxy.server:3128"
+# os.environ["HTTPS_PROXY"] = "http://proxy.server:3128"
 from dotenv import load_dotenv
 from fastapi import FastAPI,APIRouter
 from routes import simple_routes,chatbot,image_detect

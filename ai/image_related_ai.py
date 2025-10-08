@@ -1,6 +1,6 @@
 from google import genai
 from google.genai import types
-from ai.LocalModels.plant_disease_detector import PlantDiseaseDetector
+from ai.LocalModels.plant_disease_detector import PlantDiseaseDetectorONNX
 from typing import List
 import json
 
@@ -65,6 +65,6 @@ class ImageAI:
 
 
   def detectPlantDisease(self,image_bytes):
-    detect_disease = PlantDiseaseDetector()
+    detect_disease = PlantDiseaseDetectorONNX()
     return detect_disease.predict(image_bytes)
 
