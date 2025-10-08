@@ -32,29 +32,23 @@ class ImageResponse(BaseModel):
 
 router = APIRouter(prefix="/image", tags=["Image Detect"])
 
- # supabase: Client = Depends(get_supabase),user=Depends(authenticate_and_get_user_details)
-# response_model=ImageResponse
-@router.post("/detect")
-async def create_upload_file(file: UploadFile = File(...)):
+ 
+
+@router.post("/detect",response_model=ImageResponse)
+async def create_upload_file(file: UploadFile = File(...),supabase: Client = Depends(get_supabase),user=Depends(authenticate_and_get_user_details)):
     # print(user,file)
-    # service = ImageService(supabase)
+    service = ImageService(supabase)
     ai = ImageAI()
-    isPlantImage = ai.isPlantImage(await file.read())
+    img_bytes = await file.read()
+    isPlantImage = ai.isPlantImage(img_bytes)
     if isPlantImage in ["False",False,'false']:
-        return HTTPException(status_code=404,detail="Please insert Image of Plant not of anything")
+        return HTTPException(status_code=404,detail="Please insert plant image as currently AI is unable to detect plant in the Image")
     # Example mocked recognition
-    recognized = {
-        "plant_name": "Rice",
-        "disease": "Rice Disease",
-        "severity": "Medium",
-        "time": "2hrs",
-        "disease_probability": "85%",
-        "suggestions": [
-            "Use a good Pesticide",
-            "Always take Crop Insurance",
-            "You are good to go"
-        ]
-    }
+    recognized = ai.detectPlantDisease(img_bytes)
+    # print(recognized)
+    recognized['time'] = "2hrs"
+    recognized["suggestions"] = ai.diseaseSuggestions(recognized["disease"])
+    print(recognized)
     try:
         data = {
             # "user_id": user["user_id"],
@@ -63,7 +57,6 @@ async def create_upload_file(file: UploadFile = File(...)):
         # service.save_res_to_database(data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
     return recognized
 
 
